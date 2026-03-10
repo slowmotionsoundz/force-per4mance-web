@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>International Player Application | Force Per4mance</title>
+  <meta name="description" content="International players — apply to join the Force Per4mance residential program in Landskrona, Sweden. Housing, food, training, and scouting included." />
+  <link rel="stylesheet" href="style.css" />
+  <link rel="icon" type="image/png" href="assets/logo.png" />
+  <style>
+    .portal-bg {
+      position: fixed; inset: 0; z-index: -1;
+      background: url('assets/hero_stadium.png') center/cover;
+    }
+    .portal-bg::after {
+      content: ''; position: absolute; inset: 0;
+      background: linear-gradient(135deg, rgba(7,7,9,0.95) 0%, rgba(7,7,9,0.88) 100%);
+    }
+    .back-link {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-size: 0.8rem; letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--fp4-muted); margin-bottom: 48px; transition: color 0.25s;
+    }
+    .back-link:hover { color: var(--fp4-orange); }
+    .form-card {
+      background: rgba(13,13,17,0.85);
+      border: 1px solid var(--fp4-border);
+      border-radius: var(--radius-xl);
+      padding: 60px;
+      backdrop-filter: blur(30px);
+    }
+    @media(max-width:600px){ .form-card { padding: 32px 24px; } }
+    .program-includes {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px;
+      margin-bottom: 56px;
+    }
+    .include-item {
+      background: rgba(245,166,35,0.06);
+      border: 1px solid rgba(245,166,35,0.15);
+      border-radius: var(--radius-md);
+      padding: 20px;
+      text-align: center;
+    }
+    .include-item .icon { font-size: 1.5rem; margin-bottom: 8px; }
+    .include-item span { font-size: 0.75rem; letter-spacing: 0.08em; text-transform: uppercase; font-weight: 600; color: var(--fp4-amber); }
+    @media(max-width:768px){ .program-includes { grid-template-columns: 1fr 1fr; } }
+    @media(max-width:480px){ .program-includes { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+
+<div class="portal-bg"></div>
+
+<!-- Global Navbar Container -->
+<div id="navbar-container"></div>
+
+<!-- ===== PORTAL CONTENT ===== -->
+<div class="portal-wrapper">
+  <div class="form-container" style="max-width:960px;">
+
+    <a href="index.html" class="back-link">
+      <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+      Back to homepage
+    </a>
+
+    <div class="portal-header">
+      <div class="label" style="margin-bottom:12px;">Global Recruitment — Landskrona, Sweden</div>
+      <h1 class="headline">International Player<br /><span class="grad">Application</span></h1>
+      <p class="subhead" style="margin-top:16px;max-width:600px;margin-inline:auto;">
+        You bring the talent. We provide everything else. Complete this application and our team will evaluate your profile and contact you within 7 days.
+      </p>
+    </div>
+
+    <!-- WHAT'S INCLUDED -->
+    <div class="program-includes">
+      <div class="include-item"><div class="icon">🏠</div><span>Housing</span></div>
+      <div class="include-item"><div class="icon">🍽️</div><span>Meals</span></div>
+      <div class="include-item"><div class="icon">🚌</div><span>Travel</span></div>
+      <div class="include-item"><div class="icon">🎯</div><span>Training</span></div>
+      <div class="include-item"><div class="icon">👁️</div><span>Scouting</span></div>
+      <div class="include-item"><div class="icon">🏆</div><span>Tournaments</span></div>
+    </div>
+
+    <!-- MAIN FORM -->
+    <div class="form-card">
+      <form data-validate id="intlForm" novalidate>
+
+        <!-- ===== PERSONAL INFORMATION ===== -->
+        <div class="form-section-label">Personal Information</div>
+        <div class="form-grid">
+          <div class="form-group">
+            <label>First Name <span class="required">*</span></label>
+            <input type="text" name="firstName" placeholder="First / given name" required />
+          </div>
+          <div class="form-group">
+            <label>Middle Name</label>
+            <input type="text" name="middleName" placeholder="Middle name (if any)" />
+          </div>
+          <div class="form-group">
+            <label>Last Name / Surname <span class="required">*</span></label>
+            <input type="text" name="lastName" placeholder="Family name" required />
+          </div>
+          <div class="form-group">
+            <label>Date of Birth <span class="required">*</span></label>
+            <input type="date" name="dob" required />
+          </div>
+          <div class="form-group">
+            <label>Gender</label>
+            <select name="gender">
+              <option value="" disabled selected>Select</option>
+              <option>Male</option>
+              <option>Female</option>
+              <option>Non-binary</option>
+              <option>Prefer not to say</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Nationality / Citizenship <span class="required">*</span></label>
+            <input type="text" name="nationality" placeholder="e.g. Nigerian, Brazilian, Ghanaian" required />
+          </div>
+          <div class="form-group">
+            <label>Country of Current Residence <span class="required">*</span></label>
+            <input type="text" name="countryResidence" placeholder="Country you are currently living in" required />
+          </div>
+          <div class="form-group">
+            <label>City of Residence</label>
+            <input type="text" name="cityResidence" placeholder="Your city" />
+          </div>
+          <div class="form-group full-width">
+            <label>Full Current Address</label>
+            <input type="text" name="address" placeholder="Street, City, Country" />
+          </div>
+          <div class="form-group">
+            <label>Passport / National ID Number</label>
+            <input type="text" name="passportNumber" placeholder="For visa eligibility assessment only" />
+          </div>
+          <div class="form-group">
+            <label>Passport Expiry Date</label>
+            <input type="date" name="passportExpiry" />
+          </div>
+        </div>
+
+        <!-- ===== CONTACT INFORMATION ===== -->
+        <div class="form-section-label">Contact Information</div>
+        <div class="form-grid">
+          <div class="form-group">
+            <label>Email Address <span class="required">*</span></label>
+            <input type="email" name="email" placeholder="your@email.com" required />
+          </div>
+          <div class="form-group">
+            <label>Phone / Mobile <span class="required">*</span></label>
+            <input type="tel" name="phone" placeholder="+1 234 567 8900 (include country code)" required />
+          </div>
+          <div class="form-group">
+            <label>WhatsApp Number</label>
+            <input type="tel" name="whatsapp" placeholder="WhatsApp (if different from phone)" />
+          </div>
+          <div class="form-group">
+            <label>Instagram Handle</label>
+            <input type="text" name="instagram" placeholder="@yourhandle" />
+          </div>
+        </div>
+
+        <!-- ===== FOOTBALL PROFILE ===== -->
+        <div class="form-section-label">Football Profile</div>
+        <div class="form-grid">
+          <div class="form-group">
+            <label>Primary Playing Position <span class="required">*</span></label>
+            <select name="position" required>
+              <option value="" disabled selected>Select position</option>
+              <option>GK</option><option>CB</option><option>RB</option><option>LB</option>
+              <option>CDM</option><option>CM</option><option>CAM</option><option>RW</option>
+              <option>LW</option><option>ST</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Current Club / Team</label>
+            <input type="text" name="currentClub" placeholder="Your current team" />
+          </div>
+          <div class="form-group full-width">
+            <label>YouTube / Highlight Video Link <span class="required">*</span></label>
+            <input type="url" name="videoLink" placeholder="https://youtube.com/watch?v=..." required />
+          </div>
+          <div class="form-group full-width">
+            <label>Player Statement <span class="required">*</span></label>
+            <textarea name="playerStatement" rows="5" placeholder="Tell us why we should pick you..." required></textarea>
+          </div>
+        </div>
+
+        <div class="form-submit">
+          <button type="submit" class="btn btn-primary" style="padding:20px 72px;font-size:1.05rem;">
+            Submit International Application
+            <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </button>
+        </div>
+
+      </form>
+
+      <!-- SUCCESS STATE -->
+      <div class="form-success" id="formSuccess">
+        <div class="form-success-icon" style="font-size:2.5rem;">✈️</div>
+        <h3 class="headline" style="font-size:2rem;">Application Submitted!</h3>
+        <p class="subhead" style="max-width:520px;">
+          Your international application has been received. Our recruitment team will review your profile and contact you within <strong style="color:var(--fp4-amber);">7 business days</strong>.
+        </p>
+        <a href="index.html" class="btn btn-primary">Back to Homepage</a>
+      </div>
+
+    </div><!-- /form-card -->
+
+  </div><!-- /form-container -->
+</div><!-- /portal-wrapper -->
+
+<!-- Global Footer Container -->
+<div id="footer-container"></div>
+
+<script src="main.js"></script>
+<script type="module">
+  import { initGlobalUI } from './js/ui.js';
+  import { submitApplication } from './js/db.js';
+
+  initGlobalUI();
+
+  const intlForm = document.getElementById('intlForm');
+  const formSuccess = document.getElementById('formSuccess');
+
+  intlForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    
+    if (!intlForm.checkValidity()) {
+      intlForm.reportValidity();
+      return;
+    }
+
+    const formData = new FormData(intlForm);
+    const data = {
+      programType: 'International/Residential',
+      firstName: formData.get('firstName'),
+      lastName: formData.get('lastName'),
+      email: formData.get('email'),
+      phone: formData.get('phone'),
+      nationality: formData.get('nationality'),
+      position: formData.get('position'),
+      currentClub: formData.get('currentClub'),
+      videoLink: formData.get('videoLink'),
+      playerStatement: formData.get('playerStatement'),
+      submittedAt: new Date().toISOString(),
+      status: 'pending'
+    };
+
+    const submitBtn = intlForm.querySelector('button[type="submit"]');
+    submitBtn.disabled = true;
+    submitBtn.innerText = 'Submitting...';
+
+    const { id, error } = await submitApplication(data);
+
+    if (id) {
+      intlForm.style.display = 'none';
+      formSuccess.style.display = 'flex';
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } else {
+      alert('Submission failed: ' + error);
+      submitBtn.disabled = false;
+      submitBtn.innerText = 'Submit International Application';
+    }
+  });
+</script>
+</body>
+</html>

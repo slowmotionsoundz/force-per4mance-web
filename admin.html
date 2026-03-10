@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Dashboard | Force Per4mance</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="icon" type="image/png" href="assets/logo.png" />
+  <style>
+    .admin-layout {
+      display: grid;
+      grid-template-columns: 280px 1fr;
+      min-height: 100vh;
+      background: var(--fp4-black);
+    }
+    .admin-sidebar {
+      background: var(--glass-bg-dark);
+      border-right: var(--glass-border);
+      padding: 40px 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 32px;
+    }
+    .admin-content {
+      padding: 60px;
+      overflow-y: auto;
+    }
+    .stat-cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 24px;
+      margin-bottom: 48px;
+    }
+    .mini-stat {
+      padding: 24px;
+    }
+    .mini-stat h4 { font-size: 0.75rem; color: var(--fp4-muted); margin-bottom: 8px; }
+    .mini-stat p { font-size: 2rem; font-weight: 800; color: var(--fp4-orange); }
+
+    .app-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 24px;
+    }
+    .app-table th {
+      text-align: left;
+      padding: 16px;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--fp4-muted);
+      border-bottom: 1px solid var(--fp4-border);
+    }
+    .app-table td {
+      padding: 20px 16px;
+      border-bottom: 1px solid rgba(255,255,255,0.03);
+      font-size: 0.9rem;
+    }
+    .status-badge {
+      padding: 4px 10px;
+      border-radius: 100px;
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+    .status-pending { background: rgba(245,166,35,0.1); color: var(--fp4-orange); }
+    .status-approved { background: rgba(0,255,128,0.1); color: #00ff80; }
+    .status-rejected { background: rgba(255,68,68,0.1); color: #ff4444; }
+    
+    .action-btns { display: flex; gap: 8px; }
+    .btn-sm { padding: 6px 12px; font-size: 0.7rem; }
+  </style>
+</head>
+<body>
+
+  <div class="admin-layout">
+    <aside class="admin-sidebar">
+      <div class="nav-logo" style="margin-bottom: 20px;">
+        <img src="assets/logo.png" alt="FP4" />
+        <div class="nav-logo-text">ADMIN <span>PORTAL</span></div>
+      </div>
+      
+      <nav style="display: flex; flex-direction: column; gap: 8px;">
+        <a href="admin.html" class="btn btn-ghost" style="justify-content: flex-start; border: none; background: rgba(245,166,35,0.1); color: var(--fp4-orange);">
+          📊 Overview
+        </a>
+        <a href="scout.html" class="btn btn-ghost" style="justify-content: flex-start; border: none;">
+          ⚽ Scout View
+        </a>
+        <a href="#" class="btn btn-ghost" style="justify-content: flex-start; border: none;">
+          📩 Messages
+        </a>
+      </nav>
+
+      <div style="margin-top: auto;">
+        <button id="logoutBtn" class="btn btn-ghost" style="width: 100%; justify-content: center; border-color: rgba(255,68,68,0.2); color: #ff6666;">
+          Sign Out
+        </button>
+      </div>
+    </aside>
+
+    <main class="admin-content">
+      <header style="margin-bottom: 48px; border-bottom: 1px solid var(--fp4-border); padding-bottom: 24px;">
+        <h1 class="headline" style="font-size: 2.5rem;">Admin Overview</h1>
+        <p class="subhead">Review and manage player applications.</p>
+      </header>
+
+      <div class="stat-cards">
+        <div class="glass-card mini-stat">
+          <h4>Total Applications</h4>
+          <p id="totalCount">--</p>
+        </div>
+        <div class="glass-card mini-stat">
+          <h4>Pending Review</h4>
+          <p id="pendingCount">--</p>
+        </div>
+        <div class="glass-card mini-stat">
+          <h4>Approved Players</h4>
+          <p id="approvedCount">--</p>
+        </div>
+      </div>
+
+      <div class="glass-card" style="padding: 32px;">
+        <h3 class="headline" style="font-size: 1.5rem; margin-bottom: 20px;">All Applications</h3>
+        <table class="app-table">
+          <thead>
+            <tr>
+              <th>Player Name</th>
+              <th>Program</th>
+              <th>Date</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="appTableBody">
+            <tr>
+              <td colspan="5" style="text-align: center; color: var(--fp4-muted); padding: 40px;">
+                Loading applications...
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </main>
+  </div>
+
+  <script type="module">
+    import { monitorAuthState, logoutUser } from './js/auth.js';
+    import { getAllApplications, updateApplicationStatus } from './js/db.js';
+
+    // Protect Route
+    monitorAuthState((user) => {
+      if (!user) window.location.href = 'login.html';
+    });
+
+    // Logout
+    document.getElementById('logoutBtn').addEventListener('click', logoutUser);
+
+    // DOM Elements
+    const tableBody = document.getElementById('appTableBody');
+    const totalCount = document.getElementById('totalCount');
+    const pendingCount = document.getElementById('pendingCount');
+    const approvedCount = document.getElementById('approvedCount');
+
+    // Global load function
+    window.handleStatusUpdate = async (id, status) => {
+      if (!confirm(`Are you sure you want to set this application to ${status}?`)) return;
+      const { success, error } = await updateApplicationStatus(id, status);
+      if (success) {
+        loadApps();
+      } else {
+        alert('Update failed: ' + error);
+      }
+    };
+
+    async function loadApps() {
+      const apps = await getAllApplications();
+      tableBody.innerHTML = '';
+      
+      if (apps.length === 0) {
+        tableBody.innerHTML = '<tr><td colspan="5" style="text-align: center; padding: 40px;">No applications found.</td></tr>';
+        totalCount.textContent = '0';
+        pendingCount.textContent = '0';
+        approvedCount.textContent = '0';
+        return;
+      }
+
+      apps.forEach(app => {
+        const name = app.firstName ? `${app.firstName} ${app.lastName}` : (app.playerName || 'Unknown');
+        const date = app.submittedAt ? new Date(app.submittedAt).toLocaleDateString() : 'N/A';
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td>${name}</td>
+          <td>${app.programType}</td>
+          <td>${date}</td>
+          <td><span class="status-badge status-${app.status}">${app.status}</span></td>
+          <td class="action-btns">
+            ${app.status === 'pending' ? `
+              <button onclick="handleStatusUpdate('${app.id}', 'approved')" class="btn btn-primary btn-sm" style="box-shadow:none;">Approve</button>
+              <button onclick="handleStatusUpdate('${app.id}', 'rejected')" class="btn btn-ghost btn-sm" style="color:#ff6666; border-color:rgba(255,0,0,0.1);">Reject</button>
+            ` : `<span style="color:var(--fp4-muted); font-size:0.7rem;">Verified</span>`}
+          </td>
+        `;
+        tableBody.appendChild(tr);
+      });
+
+      totalCount.textContent = apps.length;
+      pendingCount.textContent = apps.filter(a => a.status === 'pending').length;
+      approvedCount.textContent = apps.filter(a => a.status === 'approved').length;
+    }
+
+    loadApps();
+  </script>
+
+</body>
+</html>

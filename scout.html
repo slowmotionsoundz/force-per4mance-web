@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Scout Dashboard | Force Per4mance</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="icon" type="image/png" href="assets/logo.png" />
+  <style>
+    .scout-wrapper {
+      padding: 120px 40px 60px;
+      min-height: 100vh;
+      background: var(--fp4-black);
+    }
+    .player-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 32px;
+      margin-top: 48px;
+    }
+    .player-card {
+      padding: 0;
+      overflow: hidden;
+    }
+    .player-photo {
+      height: 380px;
+      background-size: cover;
+      background-position: center;
+      position: relative;
+    }
+    .player-photo::after {
+      content: ''; position: absolute; inset: 0;
+      background: linear-gradient(to top, rgba(7,7,9,0.9), transparent 60%);
+    }
+    .player-info {
+      padding: 24px;
+      position: relative;
+    }
+    .player-name { font-size: 1.5rem; font-weight: 800; margin-bottom: 4px; }
+    .player-meta { font-size: 0.8rem; color: var(--fp4-orange); font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 12px; }
+    .player-stats {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-top: 16px;
+      border-top: 1px solid rgba(255,255,255,0.06);
+      padding-top: 16px;
+    }
+    .stat-box { font-size: 0.75rem; color: var(--fp4-muted); }
+    .stat-box span { display: block; color: var(--fp4-white); font-weight: 600; font-size: 0.9rem; margin-top: 2px; }
+    
+    .filter-bar {
+      display: flex; gap: 16px; flex-wrap: wrap;
+      margin-bottom: 32px;
+    }
+    .search-input {
+      flex: 1; min-width: 280px;
+      background: var(--glass-bg);
+      border: var(--glass-border);
+      border-radius: var(--radius-sm);
+      padding: 12px 20px;
+      color: var(--fp4-white);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Global Navbar Container -->
+  <div id="navbar-container"></div>
+
+  <div class="scout-wrapper">
+    <div class="container">
+      <header class="section-header">
+        <div class="label">Elite Talent Pipeline</div>
+        <h1 class="headline">Scout Dashboard</h1>
+        <p class="subhead">Browse approved players and prospects in the Force Per4mance ecosystem.</p>
+      </header>
+
+      <div class="filter-bar">
+        <input type="text" id="playerSearch" class="search-input" placeholder="Search by name, position, or nationality..." />
+        <select class="search-input" style="flex: 0 0 200px;">
+          <option>All Positions</option>
+          <option>Forwards</option>
+          <option>Midfielders</option>
+          <option>Defenders</option>
+          <option>Goalkeepers</option>
+        </select>
+      </div>
+
+      <div id="playerGrid" class="player-grid">
+        <!-- Players loaded via JS -->
+        <p style="text-align: center; grid-column: 1/-1; padding: 100px; color: var(--fp4-muted);">
+          Loading talent pool...
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Global Footer Container -->
+  <div id="footer-container"></div>
+
+  <script src="main.js"></script>
+  <script type="module">
+    import { initGlobalUI } from './js/ui.js';
+    import { db } from './js/firebase-config.js';
+    import { collection, getDocs } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+    initGlobalUI();
+
+    const playerGrid = document.getElementById('playerGrid');
+
+    async function loadScoutView() {
+      try {
+        const querySnapshot = await getDocs(collection(db, "users"));
+        playerGrid.innerHTML = '';
+        
+        if (querySnapshot.empty) {
+          playerGrid.innerHTML = '<p style="grid-column: 1/-1; text-align: center; padding: 60px;">No public player profiles found.</p>';
+          return;
+        }
+
+        querySnapshot.forEach((doc) => {
+          const p = doc.data();
+          const pCard = document.createElement('div');
+          pCard.className = 'glass-card player-card';
+          
+          const photoUrl = p.photoURL || 'https://via.placeholder.com/400x500/111116/F5A623?text=FP4+TALENT';
+          
+          pCard.innerHTML = `
+            <div class="player-photo" style="background-image: url('${photoUrl}')"></div>
+            <div class="player-info">
+              <div class="player-meta">${p.position || 'Forward'} • ${p.nationality || 'Sweden'}</div>
+              <div class="player-name">${p.fullName || 'Talent Prospect'}</div>
+              <p style="font-size:0.8rem; color:var(--fp4-muted); margin-bottom:12px;">${p.club || 'Force Per4mance Academy'}</p>
+              
+              <div class="player-stats">
+                <div class="stat-box">Strength <span>85</span></div>
+                <div class="stat-box">Speed <span>92</span></div>
+                <div class="stat-box">Technique <span>88</span></div>
+                <div class="stat-box">Tactical <span>81</span></div>
+              </div>
+              
+              <button class="btn btn-primary" style="width:100%; margin-top:20px; padding:12px; font-size:0.8rem;">View Full Bio</button>
+            </div>
+          `;
+          playerGrid.appendChild(pCard);
+        });
+      } catch (e) {
+        console.error("Error loading scout view:", e);
+        playerGrid.innerHTML = '<p style="grid-column: 1/-1; text-align: center; padding: 60px; color: #ff6666;">Error loading players. Check console.</p>';
+      }
+    }
+
+    loadScoutView();
+  </script>
+</body>
+</html>

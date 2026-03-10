@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>My Player Profile | Force Per4mance</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="icon" type="image/png" href="assets/logo.png" />
+  <style>
+    .profile-container {
+      max-width: 1000px;
+      margin: 120px auto 80px;
+      padding: 0 24px;
+      display: grid;
+      grid-template-columns: 320px 1fr;
+      gap: 40px;
+    }
+    .profile-sidebar {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+    .profile-photo-wrap {
+      width: 100%;
+      aspect-ratio: 1/1;
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      border: var(--glass-border-o);
+      background: var(--glass-bg);
+      position: relative;
+    }
+    .profile-photo-wrap img { width: 100%; height: 100%; object-fit: cover; }
+    .photo-upload-btn {
+      position: absolute; bottom: 12px; right: 12px;
+      width: 44px; height: 44px; border-radius: 50%;
+      background: var(--fp4-orange); color: #000;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+      transition: var(--transition);
+    }
+    .photo-upload-btn:hover { transform: scale(1.1); }
+    
+    .profile-nav {
+      display: flex; flex-direction: column; gap: 8px;
+    }
+
+    .profile-main {
+      display: flex; flex-direction: column; gap: 32px;
+    }
+    .upload-progress {
+      height: 4px; background: rgba(255,255,255,0.1); border-radius: 2px;
+      margin-top: 12px; display: none; overflow: hidden;
+    }
+    .upload-bar {
+      height: 100%; background: var(--fp4-orange); width: 0%;
+      transition: width 0.3s ease;
+    }
+    @media(max-width: 768px) {
+      .profile-container { grid-template-columns: 1fr; margin-top: 80px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Global Navbar Container -->
+  <div id="navbar-container"></div>
+
+  <div class="profile-container">
+    <aside class="profile-sidebar">
+      <div class="glass-card" style="padding: 24px;">
+        <div class="profile-photo-wrap">
+          <img id="profileImg" src="https://via.placeholder.com/400?text=Upload+Photo" alt="Player Photo" />
+          <label for="photoUpload" class="photo-upload-btn">
+            <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M4 5h16v14h-16z" fill="none"/><path d="M9 3l-1.83 2h-3.17c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2v-12c0-1.1-.9-2-2-2h-3.17l-1.83-2h-6zm3 15c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.65 0-3 1.35-3 3s1.35 3 3 3 3-1.35 3-3-1.35-3-3-3z"/></svg>
+          </label>
+          <input type="file" id="photoUpload" hidden accept="image/*" />
+        </div>
+        <div class="upload-progress" id="uploadProgressFill">
+          <div class="upload-bar" id="uploadBar"></div>
+        </div>
+        <p class="overline" style="text-align:center; margin-top:16px;" id="playerNameDisplay">Loading...</p>
+      </div>
+
+      <div class="glass-card profile-nav" style="padding: 16px;">
+        <a href="#" class="btn btn-ghost" style="justify-content: flex-start; border:none; background:rgba(245,166,35,0.1); color:var(--fp4-orange);">👤 General Info</a>
+        <a href="#" class="btn btn-ghost" style="justify-content: flex-start; border:none;">⚽ Stats & Experience</a>
+        <a href="#" class="btn btn-ghost" style="justify-content: flex-start; border:none;">🎬 Video Highlights</a>
+      </div>
+    </aside>
+
+    <main class="profile-main">
+      <div class="glass-card" style="padding: 40px;">
+        <h3 class="headline" style="font-size: 1.5rem; margin-bottom: 24px;">Personal Information</h3>
+        <form id="profileForm">
+          <div class="form-grid">
+            <div class="form-group">
+              <label>Full Name</label>
+              <input type="text" id="pFullName" />
+            </div>
+            <div class="form-group">
+              <label>Nationality</label>
+              <input type="text" id="pNationality" />
+            </div>
+            <div class="form-group">
+              <label>Current Club</label>
+              <input type="text" id="pClub" />
+            </div>
+            <div class="form-group">
+              <label>Position</label>
+              <input type="text" id="pPosition" placeholder="e.g. Center Mid" />
+            </div>
+          </div>
+          <div class="form-submit" style="text-align: left; margin-top: 24px;">
+            <button type="submit" class="btn btn-primary">Update Profile</button>
+          </div>
+        </form>
+      </div>
+    </main>
+  </div>
+
+  <!-- Global Footer Container -->
+  <div id="footer-container"></div>
+
+  <script src="main.js"></script>
+  <script type="module">
+    import { initGlobalUI } from './js/ui.js';
+    import { monitorAuthState, logoutUser } from './js/auth.js';
+    import { db, storage } from './js/firebase-config.js';
+    import { doc, getDoc, setDoc, updateDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+    import { ref, uploadBytesResumable, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-storage.js";
+
+    initGlobalUI();
+
+    const profileImg = document.getElementById('profileImg');
+    const photoUpload = document.getElementById('photoUpload');
+    const uploadProgressFill = document.getElementById('uploadProgressFill');
+    const uploadBar = document.getElementById('uploadBar');
+    const playerNameDisplay = document.getElementById('playerNameDisplay');
+    const profileForm = document.getElementById('profileForm');
+
+    let currentUser = null;
+
+    monitorAuthState(async (user) => {
+      if (!user) {
+        window.location.href = 'login.html';
+        return;
+      }
+      currentUser = user;
+      loadProfileData(user.uid);
+    });
+
+    async function loadProfileData(uid) {
+      const docRef = doc(db, "users", uid);
+      const docSnap = await getDoc(docRef);
+
+      if (docSnap.exists()) {
+        const data = docSnap.data();
+        playerNameDisplay.textContent = data.fullName || 'New Player';
+        document.getElementById('pFullName').value = data.fullName || '';
+        document.getElementById('pNationality').value = data.nationality || '';
+        document.getElementById('pClub').value = data.currentClub || '';
+        document.getElementById('pPosition').value = data.position || '';
+        if (data.photoURL) profileImg.src = data.photoURL;
+      }
+    }
+
+    // Photo Upload Logic
+    photoUpload.addEventListener('change', (e) => {
+      const file = e.target.files[0];
+      if (!file || !currentUser) return;
+
+      const storageRef = ref(storage, `player_photos/${currentUser.uid}`);
+      const uploadTask = uploadBytesResumable(storageRef, file);
+
+      uploadProgressFill.style.display = 'block';
+
+      uploadTask.on('state_changed', 
+        (snapshot) => {
+          const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+          uploadBar.style.width = progress + '%';
+        }, 
+        (error) => { console.error("Upload failed", error); }, 
+        () => {
+          getDownloadURL(uploadTask.snapshot.ref).then(async (downloadURL) => {
+            profileImg.src = downloadURL;
+            uploadProgressFill.style.display = 'none';
+            await updateDoc(doc(db, "users", currentUser.uid), { photoURL: downloadURL });
+          });
+        }
+      );
+    });
+
+    profileForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      if (!currentUser) return;
+
+      const data = {
+        fullName: document.getElementById('pFullName').value,
+        nationality: document.getElementById('pNationality').value,
+        currentClub: document.getElementById('pClub').value,
+        position: document.getElementById('pPosition').value,
+        lastUpdated: new Date()
+      };
+
+      await setDoc(doc(db, "users", currentUser.uid), data, { merge: true });
+      alert('Profile updated successfully!');
+      playerNameDisplay.textContent = data.fullName;
+    });
+  </script>
+</body>
+</html>

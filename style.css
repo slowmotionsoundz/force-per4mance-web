@@ -1,0 +1,9 @@
+/* ===== FORCE PER4MANCE — MASTER STYLE SHEET ===== */
+
+@import url('assets/css/base.css');
+@import url('assets/css/components.css');
+@import url('assets/css/pages.css');
+@import url('assets/css/portals.css');
+
+/* Admin specific styles if needed */
+/* Most admin styles are inlined or could be moved to assets/css/admin.css */

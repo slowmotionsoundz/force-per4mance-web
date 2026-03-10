@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Force Per4mance | Elite Football Academy — Landskrona, Sweden</title>
+  <meta name="description" content="Force Per4mance (FP4) is an elite football development program based in Landskrona, Sweden. We develop local youth, professional players, and recruit international talent across Scandinavia." />
+  <link rel="stylesheet" href="style.css" />
+  <link rel="icon" type="image/png" href="assets/logo.png" />
+</head>
+<body>
+
+  <!-- Global Navbar Container -->
+  <div id="navbar-container"></div>
+
+  <!-- ===== HERO ===== -->
+  <section class="hero" id="home">
+    <div class="hero-bg" id="heroBg"></div>
+    <div class="hero-overlay"></div>
+    <canvas class="hero-particles" id="particleCanvas"></canvas>
+
+    <div class="hero-content">
+      <div class="hero-badge reveal">
+        <span class="dot"></span>
+        Established 2024 · Landskrona, Sweden
+      </div>
+
+      <h1 class="hero-title reveal reveal-delay-1">
+        FORCE<br /><span class="grad">PER4MANCE</span>
+      </h1>
+
+      <p class="hero-sub reveal reveal-delay-2">
+        Where local ambition meets global opportunity. Developing elite footballers,<br />
+        connecting international talent with Scandinavian football.
+      </p>
+
+      <div class="hero-ctas reveal reveal-delay-3">
+        <a href="portal-international.html" class="btn btn-primary">
+          <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M12 2a10 10 0 110 20A10 10 0 0112 2zm0 0v20M2 12h20"/></svg>
+          Apply for International Program
+        </a>
+        <a href="#programs" class="btn btn-ghost">
+          Explore Programs
+          <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+      </div>
+    </div>
+
+    <div class="hero-scroll">
+      <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
+      <span>Scroll</span>
+    </div>
+  </section>
+
+  <!-- ===== STATS STRIP ===== -->
+  <div class="stats-strip">
+    <div class="stats-grid">
+      <div class="stat-item reveal">
+        <div class="stat-num grad" data-target="150">0</div>
+        <div class="stat-label">Players Trained</div>
+      </div>
+      <div class="stat-item reveal reveal-delay-1">
+        <div class="stat-num grad" data-target="12">0</div>
+        <div class="stat-label">Pro Athletes</div>
+      </div>
+      <div class="stat-item reveal reveal-delay-2">
+        <div class="stat-num grad" data-target="18">0</div>
+        <div class="stat-label">Countries Represented</div>
+      </div>
+      <div class="stat-item reveal reveal-delay-3">
+        <div class="stat-num grad" data-target="2024">0</div>
+        <div class="stat-label">Established</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== ABOUT ===== -->
+  <section class="section" id="about">
+    <div class="container">
+      <div class="about-grid">
+        <div class="about-img_wrap reveal">
+          <img src="assets/training.png" alt="FP4 Training Session" />
+          <div class="about-badge-float">
+            <strong>FP4</strong>
+            <span>Force Per4mance</span>
+          </div>
+        </div>
+        <div class="about-content">
+          <div class="reveal">
+            <div class="label">Our Story</div>
+            <div class="divider"></div>
+            <h2 class="headline">From Landskrona<br />to the World</h2>
+            <p class="subhead" style="margin-top:16px;">
+              Born on the streets and pitches of Landskrona in 2024, Force Per4mance started as a youth development program for local kids chasing a dream. It quickly became the premier training destination for professional players in the region.
+            </p>
+            <p style="margin-top:16px;font-size:0.9rem;color:var(--fp4-muted);line-height:1.8;">
+              Now we're taking on our biggest challenge yet — creating an international pathway for talented players from around the globe to come to Scandinavia, get coached by elite staff, get seen by scouts, and carve out a professional football career.
+            </p>
+          </div>
+          <div class="about-feature reveal reveal-delay-1">
+            <div class="about-feature-icon">🦁</div>
+            <div>
+              <h4>Elite Coaching Staff</h4>
+              <p>Our coaches have direct connections to professional clubs and scouting networks across Scandinavia and Europe.</p>
+            </div>
+          </div>
+          <div class="about-feature reveal reveal-delay-2">
+            <div class="about-feature-icon">🌍</div>
+            <div>
+              <h4>International Reach</h4>
+              <p>Players from across Africa, the Americas, Asia, and Europe have come through our doors. We're building a global football family in Landskrona.</p>
+            </div>
+          </div>
+          <div class="about-feature reveal reveal-delay-3">
+            <div class="about-feature-icon">🏆</div>
+            <div>
+              <h4>Ambassadors of Landskrona</h4>
+              <p>We don't just develop players — we bring the world to Landskrona, elevating the city through monthly international tournaments and events.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== FOUNDER ===== -->
+  <section class="section" id="founder" style="background:var(--fp4-dark);">
+    <div class="container">
+      <div class="about-grid">
+        <div class="about-content reveal">
+          <div class="label">The Founder</div>
+          <div class="divider"></div>
+          <h2 class="headline">Thierry <span class="grad">Zahui</span></h2>
+          <p class="subhead" style="margin-top:16px;">
+            Hi, I’m Thierry Zahui, a former professional footballer with years of experience playing at the highest levels. Football has always been my passion, and I’m dedicated to helping players improve their skills, confidence, and performance on the field.
+          </p>
+          <p style="margin-top:16px;font-size:0.9rem;color:var(--fp4-muted);line-height:1.8;">
+            Throughout my career, I’ve gained valuable experience and accomplishments. I provide personalized training sessions to help refine your technique, build strength and speed, and master ball control. Let’s work together to elevate your football journey!
+          </p>
+          
+          <div style="margin-top:24px;display:flex;flex-direction:column;gap:12px;">
+            <div style="display:flex;align-items:center;gap:12px;">
+              <div style="color:var(--fp4-orange);font-size:1.2rem;">✓</div>
+              <p style="font-size:0.9rem;color:var(--fp4-white);margin:0;">Playing in Sweden’s elite football leagues.</p>
+            </div>
+            <div style="display:flex;align-items:center;gap:12px;">
+              <div style="color:var(--fp4-orange);font-size:1.2rem;">✓</div>
+              <p style="font-size:0.9rem;color:var(--fp4-white);margin:0;">Coaching youth and senior teams at competitive levels.</p>
+            </div>
+            <div style="display:flex;align-items:center;gap:12px;">
+              <div style="color:var(--fp4-orange);font-size:1.2rem;">✓</div>
+              <p style="font-size:0.9rem;color:var(--fp4-white);margin:0;">Earning a <strong>UEFA Advanced Elite Youth Diploma</strong>.</p>
+            </div>
+            <div style="display:flex;align-items:center;gap:12px;">
+              <div style="color:var(--fp4-orange);font-size:1.2rem;">✓</div>
+              <p style="font-size:0.9rem;color:var(--fp4-white);margin:0;">Working as an instructor at the <strong>Malmö FF Academy</strong>.</p>
+            </div>
+            <div style="display:flex;align-items:center;gap:12px;">
+              <div style="color:var(--fp4-orange);font-size:1.2rem;">✓</div>
+              <p style="font-size:0.9rem;color:var(--fp4-white);margin:0;">Serving as a <strong>certified football scout (IPSO Level 1)</strong>.</p>
+            </div>
+          </div>
+
+          <div style="margin-top:32px;">
+            <a href="mailto:info@forceper4mance.com" class="btn btn-primary" style="padding:12px 28px;font-size:0.85rem;">Get in touch</a>
+          </div>
+        </div>
+        
+        <div class="about-img-wrap reveal reveal-delay-2" style="aspect-ratio:1/1;">
+          <img src="https://storage.googleapis.com/fp4_bucket_logos/Thierry%20Zahui_celebrate%20(1).jpg" alt="Thierry Zahui, Founder of Force Per4mance" style="object-position:top;" />
+          <div class="about-badge-float" style="right:32px;left:auto;">
+            <strong>TZ 19</strong>
+            <span>Founder & Head Coach</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== PROGRAMS ===== -->
+  <section class="section" id="programs" style="background:var(--fp4-dark);">
+    <div class="container">
+      <div class="section-header center reveal">
+        <div class="label">What We Offer</div>
+        <h2 class="headline">Three Paths to<br /><span class="grad">Your Potential</span></h2>
+        <p class="subhead" style="margin-top:16px;">Whether you're a local youth just starting out, a pro looking to sharpen your edge, or an international player ready to break into Scandinavian football — we have a program for you.</p>
+      </div>
+      <div class="programs-grid">
+
+        <div class="program-card reveal">
+          <div class="program-card-img" style="background-image:url('assets/training.png')"></div>
+          <div class="program-card-body">
+            <div class="program-icon">⚽</div>
+            <h3>Youth &amp; Local</h3>
+            <p>Structured development for local Landskrona kids. From fundamentals to advanced technique, we build the next generation of Swedish football talent.</p>
+            <a href="portal-local.html" class="btn btn-outline-orange" style="padding:10px 24px;font-size:0.8rem;">Apply as Local Player</a>
+          </div>
+        </div>
+
+        <div class="program-card reveal reveal-delay-1">
+          <div class="program-card-img" style="background-image:url('assets/hero_stadium.png')"></div>
+          <div class="program-card-body">
+            <div class="program-icon">🏋️</div>
+            <h3>Professional</h3>
+            <p>Elite conditioning, tactical sessions, and performance analysis for professional and semi-professional players based in Skandinavia. Train alongside the best.</p>
+            <a href="portal-local.html" class="btn btn-outline-orange" style="padding:10px 24px;font-size:0.8rem;">Apply as Pro Player</a>
+          </div>
+        </div>
+
+        <div class="program-card reveal reveal-delay-2" style="border-color:rgba(245,166,35,0.4);">
+          <div class="program-card-img" style="background-image:url('assets/landskrona.png')"></div>
+          <div class="program-card-body">
+            <div class="program-icon">✈️</div>
+            <h3>International <span class="label" style="font-size:0.6rem;vertical-align:middle;margin-left:8px;">Featured</span></h3>
+            <p>Relocate to Landskrona. We provide housing, food, training, scouting exposure, and tournament opportunities. Your gateway to Scandinavian football.</p>
+            <a href="portal-international.html" class="btn btn-primary" style="padding:10px 24px;font-size:0.8rem;">Apply Now</a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== INTERNATIONAL PROGRAM ===== -->
+  <section class="section intl-section noise" id="international">
+    <div class="container">
+      <div class="section-header center reveal" style="margin-bottom:64px;">
+        <div class="label">International Program</div>
+        <h2 class="headline">Everything You Need.<br /><span class="grad">We've Got You.</span></h2>
+        <p class="subhead" style="margin-top:16px;">We make it easy for international talent to focus on one thing: football. We handle everything else.</p>
+      </div>
+
+      <div class="intl-grid reveal">
+        <div class="intl-item">
+          <div class="intl-item-icon">🏠</div>
+          <h4>Housing</h4>
+          <p>Comfortable, fully furnished accommodation provided from day one. You arrive — it's ready. No search, no stress, no cost.</p>
+          <span class="intl-tag">Included</span>
+        </div>
+        <div class="intl-item">
+          <div class="intl-item-icon">🍽️</div>
+          <h4>Nutrition &amp; Meals</h4>
+          <p>High-performance nutrition tailored to your training load. Fuel that matches your ambition, every day of the program.</p>
+          <span class="intl-tag">Included</span>
+        </div>
+        <div class="intl-item">
+          <div class="intl-item-icon">🚌</div>
+          <h4>In-Country Travel</h4>
+          <p>All local transportation arranged — training ground, games, scouting events. You focus on football, we handle the logistics.</p>
+          <span class="intl-tag">Included</span>
+        </div>
+        <div class="intl-item">
+          <div class="intl-item-icon">🎯</div>
+          <h4>Elite Training</h4>
+          <p>Daily structured sessions with experienced coaches. Tactical development, strength and conditioning, position-specific coaching.</p>
+          <span class="intl-tag">Daily Sessions</span>
+        </div>
+        <div class="intl-item">
+          <div class="intl-item-icon">👁️</div>
+          <h4>Scouting Exposure</h4>
+          <p>Organized friendly matches and scouted sessions directly with Scandinavian clubs and coaches actively looking for new talent.</p>
+          <span class="intl-tag">Regular Events</span>
+        </div>
+        <div class="intl-item">
+          <div class="intl-item-icon">🏟️</div>
+          <h4>Friendly Games</h4>
+          <p>Regular arranged fixtures with local and regional clubs so you can showcase your form in match conditions with real observers.</p>
+          <span class="intl-tag">Weekly</span>
+        </div>
+      </div>
+
+      <div style="margin-top:56px;text-align:center;" class="reveal">
+        <a href="portal-international.html" class="btn btn-primary">Start Your Application</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== TOURNAMENTS ===== -->
+  <section class="section" id="tournaments">
+    <div class="container">
+      <div class="section-header reveal" style="margin-bottom:48px;">
+        <div class="label">Monthly Events</div>
+        <h2 class="headline">The Stage You<br /><span class="grad">Deserve</span></h2>
+      </div>
+      <div class="tournament-hero reveal">
+        <div class="tournament-hero-bg"></div>
+        <div class="tournament-hero-content">
+          <div class="label" style="margin-bottom:12px;">FP4 International Series</div>
+          <h3 style="font-size:clamp(1.8rem,4vw,3.5rem);font-weight:900;max-width:600px;line-height:1.2;">
+            Monthly Tournaments. Global Exposure. Local Legacy.
+          </h3>
+          <p style="margin-top:16px;max-width:560px;font-size:0.95rem;color:var(--fp4-muted);line-height:1.8;">
+            Every month, Force Per4mance hosts 5v5 and full-format tournaments in Landskrona. International players compete alongside local talent, watched by scouts, streamed online, and celebrated by the community. Build your social following. Build your brand. Build your career.
+          </p>
+          <div class="tournament-chips">
+            <span class="chip">🏆 5v5 Tournaments</span>
+            <span class="chip">🌍 International Format</span>
+            <span class="chip">📸 Scouted Events</span>
+            <span class="chip">📱 Streamed Live</span>
+            <span class="chip">🤝 Community Festival</span>
+            <span class="chip">📅 Monthly Schedule</span>
+          </div>
+          <a href="portal-international.html" class="btn btn-primary" style="margin-top:36px;">
+            Apply to Compete
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== CITY ===== -->
+  <section class="city-section" id="city">
+    <div class="city-bg"></div>
+    <div class="city-content">
+      <div class="label reveal">Landskrona, Sweden</div>
+      <div class="divider"></div>
+      <h2 class="headline reveal reveal-delay-1">Ambassadors<br />of a City</h2>
+      <p class="subhead reveal reveal-delay-2" style="margin-top:20px;">
+        Nestled on the southwestern coast of Sweden, Landskrona is a hidden gem — a city with history, culture, and growing pride. When international players come here, they don't just train. They become part of a community, they represent Landskrona to the world. And Landskrona represents the very best of Scandinavian culture to them.
+      </p>
+      <a href="#international" class="btn btn-primary reveal reveal-delay-3" style="margin-top:36px;">Learn About the Program</a>
+    </div>
+  </section>
+
+  <!-- ===== PORTALS CTA ===== -->
+  <section class="section portals-section" id="portals">
+    <div class="container">
+      <div class="section-header center reveal" style="margin-bottom:48px;">
+        <div class="label">Player Portals</div>
+        <h2 class="headline"><span class="grad">Your Journey</span><br />Starts Here</h2>
+      </div>
+      <div class="portals-grid">
+
+        <div class="portal-card reveal">
+          <div class="portal-card-bg" style="background-image:url('assets/training.png')"></div>
+          <div class="portal-card-overlay"></div>
+          <div class="portal-card-body">
+            <div class="label" style="margin-bottom:12px;">For Residents</div>
+            <h3>Local &amp; Youth<br />Player Portal</h3>
+            <p>Landskrona youth and local players — register for developmental training programs tailored to your level and ambitions.</p>
+            <a href="portal-local.html" class="btn btn-ghost">Register Now →</a>
+          </div>
+        </div>
+
+        <div class="portal-card reveal reveal-delay-1">
+          <div class="portal-card-bg" style="background-image:url('assets/landskrona.png')"></div>
+          <div class="portal-card-overlay"></div>
+          <div class="portal-card-body">
+            <div class="label" style="margin-bottom:12px;">Global Recruitment</div>
+            <h3>International<br />Player Portal</h3>
+            <p>Players from around the world — apply for our full residential program including housing, training, scouting, and monthly tournaments.</p>
+            <a href="portal-international.html" class="btn btn-primary">Apply Now →</a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Global Footer Container -->
+  <div id="footer-container"></div>
+
+  <script src="main.js"></script>
+  <script type="module">
+    import { initGlobalUI } from './js/ui.js';
+    initGlobalUI();
+  </script>
+</body>
+</html>
