@@ -371,6 +371,9 @@
   display: flex;
   align-items: center;
   gap: 12px;
+  position: relative;
+  z-index: 1001;
+  /* Ensure actions (like hamburger) stay above mobile menu */
 }
 
 .hamburger {
@@ -378,16 +381,23 @@
   flex-direction: column;
   gap: 5px;
   cursor: pointer;
+  padding: 10px;
+  margin-right: -10px;
 }
 
 .hamburger span {
   display: block;
   width: 24px;
   height: 2px;
-  background: var(--fp4-white);
+  background: var(--fp4-orange);
+  /* Changed to orange for better visibility */
   border-radius: 2px;
   transition: var(--transition);
   transform-origin: center;
+}
+
+.hamburger.open span {
+  background: var(--fp4-white);
 }
 
 .hamburger.open span:nth-child(1) {
@@ -402,37 +412,72 @@
   transform: translateY(-7px) rotate(-45deg);
 }
 
-.nav-mobile {
+/* Mobile Menu Overlay */
+.nav-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(7, 7, 9, 0.97);
-  backdrop-filter: blur(20px);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-start;
-  gap: 24px;
-  padding: 120px 24px 60px;
-  overflow-y: auto;
-  z-index: 999;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(4px);
+  z-index: 998;
   opacity: 0;
   pointer-events: none;
-  transition: var(--transition);
+  transition: opacity 0.4s ease;
 }
 
-.nav-mobile.open {
+.nav-overlay.open {
   opacity: 1;
   pointer-events: all;
 }
 
+.nav-mobile {
+  position: fixed;
+  top: 0;
+  right: -100%;
+  /* Start off-screen to the right */
+  width: 300px;
+  height: 100vh;
+  background: var(--fp4-dark);
+  border-left: 1px solid var(--fp4-border);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 20px;
+  padding: 100px 32px 40px;
+  overflow-y: auto;
+  z-index: 1000;
+  transition: right 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+  box-shadow: -20px 0 60px rgba(0, 0, 0, 0.8);
+}
+
+.nav-mobile.open {
+  right: 0;
+}
+
 .nav-mobile a {
-  font-size: 1.5rem;
-  font-weight: 700;
+  font-size: 1.1rem;
+  font-weight: 600;
   color: var(--fp4-white);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 10px 0;
+  width: 100%;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  transition: color 0.2s;
 }
 
 .nav-mobile a:hover {
   color: var(--fp4-orange);
+}
+
+.nav-mobile .mobile-section-label {
+  font-size: 0.7rem;
+  color: var(--fp4-orange);
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  font-weight: 700;
+  margin-top: 20px;
+  margin-bottom: 5px;
 }
 
 /* ===== STATS STRIP ===== */

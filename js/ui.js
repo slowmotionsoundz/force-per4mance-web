@@ -113,18 +113,29 @@ export function initGlobalUI() {
     // --- Mobile Hamburger Menu ---
     const hamburger = document.getElementById('hamburger');
     const navMobile = document.getElementById('navMobile');
-    if (hamburger && navMobile) {
-      hamburger.addEventListener('click', () => {
-        navMobile.classList.toggle('open');
+    const navOverlay = document.getElementById('navOverlay');
+
+    const toggleMenu = (forceClose = false) => {
+      if (forceClose) {
+        navMobile.classList.remove('open');
+        hamburger.classList.remove('open');
+        navOverlay.classList.remove('open');
+        document.body.style.overflow = '';
+      } else {
+        const isOpen = navMobile.classList.toggle('open');
         hamburger.classList.toggle('open');
-        document.body.style.overflow = navMobile.classList.contains('open') ? 'hidden' : '';
-      });
+        navOverlay.classList.toggle('open');
+        document.body.style.overflow = isOpen ? 'hidden' : '';
+      }
+    };
+
+    if (hamburger && navMobile) {
+      hamburger.addEventListener('click', () => toggleMenu());
+      if (navOverlay) {
+        navOverlay.addEventListener('click', () => toggleMenu(true));
+      }
       navMobile.querySelectorAll('a').forEach(link => {
-        link.addEventListener('click', () => {
-          navMobile.classList.remove('open');
-          hamburger.classList.remove('open');
-          document.body.style.overflow = '';
-        });
+        link.addEventListener('click', () => toggleMenu(true));
       });
     }
 
