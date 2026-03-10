@@ -2,10 +2,11 @@
  * FORCE PER4MANCE — Authentication Module
  */
 
-import { 
-  signInWithEmailAndPassword, 
-  signOut, 
-  onAuthStateChanged 
+import {
+  signInWithEmailAndPassword,
+  createUserWithEmailAndPassword,
+  signOut,
+  onAuthStateChanged
 } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
 import { auth } from "./firebase-config.js";
 
@@ -18,6 +19,19 @@ export async function loginUser(email, password) {
     return { user: userCredential.user, error: null };
   } catch (error) {
     console.error("Login Error:", error.code, error.message);
+    return { user: null, error: error.message };
+  }
+}
+
+/**
+ * Register a new user
+ */
+export async function registerUser(email, password) {
+  try {
+    const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+    return { user: userCredential.user, error: null };
+  } catch (error) {
+    console.error("Registration Error:", error.code, error.message);
     return { user: null, error: error.message };
   }
 }

@@ -2,16 +2,17 @@
  * FORCE PER4MANCE — Database Module (Firestore)
  */
 
-import { 
-  collection, 
-  addDoc, 
-  getDocs, 
-  doc, 
-  getDoc, 
-  updateDoc, 
-  query, 
+import {
+  collection,
+  addDoc,
+  getDocs,
+  doc,
+  getDoc,
+  updateDoc,
+  query,
   where,
-  serverTimestamp 
+  setDoc,
+  serverTimestamp
 } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 import { db } from "./firebase-config.js";
 
@@ -75,5 +76,37 @@ export async function updatePlayerProfile(uid, data) {
   } catch (error) {
     console.error("Update Error:", error);
     return false;
+  }
+}
+
+/**
+ * Initialize a Scout profile
+ */
+export async function createScoutProfile(uid, data) {
+  try {
+    await setDoc(doc(db, "users", uid), {
+      ...data,
+      role: 'scout',
+      verified: false,
+      createdAt: serverTimestamp()
+    });
+    return true;
+  } catch (error) {
+    console.error("Scout Profile Creation Error:", error);
+    return false;
+  }
+}
+
+/**
+ * Fetch only approved players for discovery
+ */
+export async function getApprovedPlayers() {
+  try {
+    const q = query(collection(db, "users"), where("role", "==", "player"), where("status", "==", "approved"));
+    const querySnapshot = await getDocs(q);
+    return querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+  } catch (error) {
+    console.error("Fetch Players Error:", error);
+    return [];
   }
 }

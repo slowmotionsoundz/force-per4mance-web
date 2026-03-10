@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Player Profile | Force Per4mance Discovery</title>
+    <link rel="stylesheet" href="style.css" />
+    <link rel="icon" type="image/png" href="assets/logo.png" />
+    <style>
+        .profile-hero {
+            padding: 160px 20px 80px;
+            background: linear-gradient(to bottom, rgba(7, 7, 9, 0.8), var(--fp4-black)), url('assets/training.png');
+            background-size: cover;
+            background-position: center top;
+            text-align: center;
+        }
+
+        .profile-photo-large {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            border: 4px solid var(--fp4-orange);
+            margin: 0 auto 24px;
+            background-size: cover;
+            background-position: center;
+            box-shadow: 0 0 40px rgba(245, 166, 35, 0.3);
+        }
+
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 24px;
+            margin: 40px 0;
+        }
+
+        .stat-card {
+            background: var(--glass-bg);
+            border: var(--glass-border);
+            padding: 30px;
+            border-radius: var(--radius-md);
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--fp4-orange);
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            font-size: 0.8rem;
+            color: var(--fp4-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        .video-placeholder {
+            width: 100%;
+            aspect-ratio: 16/9;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px dashed rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: var(--radius-lg);
+            margin: 40px 0;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="navbar-container"></div>
+
+    <section class="profile-hero">
+        <div id="profileHeader" class="container">
+            <div class="profile-photo-large" id="playerPhoto"
+                style="background-image: url('https://via.placeholder.com/200')"></div>
+            <div class="label" id="playerPosition">Forward • Sweden</div>
+            <h1 class="headline" id="playerName" style="font-size: 3rem; margin-top: 10px;">Loading Profile...</h1>
+            <p class="subhead" id="playerClub" style="margin-top: 10px;">Force Per4mance Academy</p>
+        </div>
+    </section>
+
+    <section class="container" style="padding-bottom: 100px;">
+        <div class="stats-container">
+            <div class="stat-card">
+                <div class="stat-value" id="statStrength">--</div>
+                <div class="stat-label">Strength</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="statSpeed">--</div>
+                <div class="stat-label">Speed</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="statTechnique">--</div>
+                <div class="stat-label">Technique</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="statTactical">--</div>
+                <div class="stat-label">Tactical</div>
+            </div>
+        </div>
+
+        <div class="video-placeholder">
+            <div style="text-align: center;">
+                <svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="var(--fp4-orange)" stroke-width="1"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <polygon points="10 8 16 12 10 16 10 8"></polygon>
+                </svg>
+                <p style="margin-top: 20px; color: var(--fp4-muted);">Scout Video Highlights (Restricted Access)</p>
+            </div>
+        </div>
+
+        <div style="display: flex; justify-content: center; gap: 20px;">
+            <button class="btn btn-primary" style="padding: 18px 40px;">Download Full Report (PDF)</button>
+            <button class="btn btn-outline" style="padding: 18px 40px;">Contact Agency</button>
+        </div>
+    </section>
+
+    <div id="footer-container"></div>
+
+    <script src="main.js"></script>
+    <script type="module">
+        import { initGlobalUI } from './js/ui.js';
+        import { db } from './js/firebase-config.js';
+        import { doc, getDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+        initGlobalUI();
+
+        async function loadPlayerData() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const playerId = urlParams.get('id');
+
+            if (!playerId) {
+                document.getElementById('playerName').textContent = "Player Not Found";
+                return;
+            }
+
+            try {
+                const docRef = doc(db, "users", playerId);
+                const docSnap = await getDoc(docRef);
+
+                if (docSnap.exists()) {
+                    const p = docSnap.data();
+
+                    document.getElementById('playerName').textContent = p.fullName || 'Talent';
+                    document.getElementById('playerPosition').textContent = `${p.position || 'Prospect'} • ${p.nationality || 'Unspecified'}`;
+                    document.getElementById('playerClub').textContent = p.club || 'Force Per4mance Academy';
+
+                    if (p.photoURL) {
+                        document.getElementById('playerPhoto').style.backgroundImage = `url('${p.photoURL}')`;
+                    }
+
+                    // Stats
+                    document.getElementById('statStrength').textContent = p.stats?.strength || '80';
+                    document.getElementById('statSpeed').textContent = p.stats?.speed || '80';
+                    document.getElementById('statTechnique').textContent = p.stats?.technique || '80';
+                    document.getElementById('statTactical').textContent = p.stats?.tactical || '80';
+
+                } else {
+                    document.getElementById('playerName').textContent = "Player data missing";
+                }
+            } catch (e) {
+                console.error("Error loading player bio:", e);
+            }
+        }
+
+        loadPlayerData();
+    </script>
+</body>
+
+</html>
