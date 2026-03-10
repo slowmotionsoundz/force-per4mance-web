@@ -23,21 +23,44 @@ export async function fetchYouTubeVideos() {
         const data = await response.json();
 
         if (data.status === 'ok') {
-            return data.items.map(item => ({
-                id: item.link.split('v=')[1],
-                title: item.title,
-                thumbnail: item.thumbnail,
-                publishedAt: item.pubDate,
-                description: item.description
-            }));
+            console.log("Successfully fetched videos from @ForcePer4mance", data.items);
+            return data.items.map(item => {
+                // Robust Video ID extraction
+                const urlObj = new URL(item.link);
+                const vidId = urlObj.searchParams.get('v');
+
+                return {
+                    id: vidId,
+                    title: item.title,
+                    thumbnail: item.thumbnail,
+                    publishedAt: item.pubDate,
+                    description: item.description
+                };
+            });
         }
         throw new Error('Failed to fetch videos');
     } catch (error) {
         console.error('YouTube Fetch Error:', error);
-        // Fallback static videos if RSS fails
+        // Fallback static videos if RSS fails (Real IDs from @ForcePer4mance)
         return [
-            { id: 'dQw4w9WgXcQ', title: 'Force Per4mance: Elite Elite Training Highlights', thumbnail: 'assets/training.png', publishedAt: '2024-03-01' },
-            { id: 'dQw4w9WgXcQ', title: 'International Path: Student Athlete Journey', thumbnail: 'assets/hero_stadium.png', publishedAt: '2024-02-15' }
+            {
+                id: 'pyHIR_MIRw0',
+                title: 'TARGET ACQUIRED. 🎯 ⎮ Xavier Odhiambo x Maxwell Ozoemena',
+                thumbnail: 'https://img.youtube.com/vi/pyHIR_MIRw0/maxresdefault.jpg',
+                publishedAt: '2024-03-05'
+            },
+            {
+                id: 'mH3Po4bUJAk',
+                title: 'Players from France, Spain, & Kenya Take on the Shoot Campaign',
+                thumbnail: 'https://img.youtube.com/vi/mH3Po4bUJAk/maxresdefault.jpg',
+                publishedAt: '2024-03-01'
+            },
+            {
+                id: 'sCsHSlQZZ64',
+                title: 'TAKE YOUR SHOT. | Force Per4mance',
+                thumbnail: 'https://img.youtube.com/vi/sCsHSlQZZ64/maxresdefault.jpg',
+                publishedAt: '2024-02-20'
+            }
         ];
     }
 }

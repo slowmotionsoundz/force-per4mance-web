@@ -110,3 +110,20 @@ export async function getApprovedPlayers() {
     return [];
   }
 }
+
+/**
+ * Admin: Update player stats and photo
+ */
+export async function updatePlayerAdmin(id, data) {
+  try {
+    const userRef = doc(db, "users", id);
+    await updateDoc(userRef, {
+      ...data,
+      updatedAt: serverTimestamp()
+    });
+    return { success: true };
+  } catch (error) {
+    console.error("Admin Update Error:", error);
+    return { success: false, error: error.message };
+  }
+}

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -13,6 +14,7 @@
       min-height: 100vh;
       background: var(--fp4-black);
     }
+
     .admin-sidebar {
       background: var(--glass-bg-dark);
       border-right: var(--glass-border);
@@ -21,27 +23,41 @@
       flex-direction: column;
       gap: 32px;
     }
+
     .admin-content {
       padding: 60px;
       overflow-y: auto;
     }
+
     .stat-cards {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
       gap: 24px;
       margin-bottom: 48px;
     }
+
     .mini-stat {
       padding: 24px;
     }
-    .mini-stat h4 { font-size: 0.75rem; color: var(--fp4-muted); margin-bottom: 8px; }
-    .mini-stat p { font-size: 2rem; font-weight: 800; color: var(--fp4-orange); }
+
+    .mini-stat h4 {
+      font-size: 0.75rem;
+      color: var(--fp4-muted);
+      margin-bottom: 8px;
+    }
+
+    .mini-stat p {
+      font-size: 2rem;
+      font-weight: 800;
+      color: var(--fp4-orange);
+    }
 
     .app-table {
       width: 100%;
       border-collapse: collapse;
       margin-top: 24px;
     }
+
     .app-table th {
       text-align: left;
       padding: 16px;
@@ -51,11 +67,13 @@
       color: var(--fp4-muted);
       border-bottom: 1px solid var(--fp4-border);
     }
+
     .app-table td {
       padding: 20px 16px;
-      border-bottom: 1px solid rgba(255,255,255,0.03);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.03);
       font-size: 0.9rem;
     }
+
     .status-badge {
       padding: 4px 10px;
       border-radius: 100px;
@@ -63,14 +81,34 @@
       font-weight: 700;
       text-transform: uppercase;
     }
-    .status-pending { background: rgba(245,166,35,0.1); color: var(--fp4-orange); }
-    .status-approved { background: rgba(0,255,128,0.1); color: #00ff80; }
-    .status-rejected { background: rgba(255,68,68,0.1); color: #ff4444; }
-    
-    .action-btns { display: flex; gap: 8px; }
-    .btn-sm { padding: 6px 12px; font-size: 0.7rem; }
+
+    .status-pending {
+      background: rgba(245, 166, 35, 0.1);
+      color: var(--fp4-orange);
+    }
+
+    .status-approved {
+      background: rgba(0, 255, 128, 0.1);
+      color: #00ff80;
+    }
+
+    .status-rejected {
+      background: rgba(255, 68, 68, 0.1);
+      color: #ff4444;
+    }
+
+    .action-btns {
+      display: flex;
+      gap: 8px;
+    }
+
+    .btn-sm {
+      padding: 6px 12px;
+      font-size: 0.7rem;
+    }
   </style>
 </head>
+
 <body>
 
   <div class="admin-layout">
@@ -79,9 +117,10 @@
         <img src="assets/logo.png" alt="FP4" />
         <div class="nav-logo-text">ADMIN <span>PORTAL</span></div>
       </div>
-      
+
       <nav style="display: flex; flex-direction: column; gap: 8px;">
-        <a href="admin.html" class="btn btn-ghost" style="justify-content: flex-start; border: none; background: rgba(245,166,35,0.1); color: var(--fp4-orange);">
+        <a href="admin.html" class="btn btn-ghost"
+          style="justify-content: flex-start; border: none; background: rgba(245,166,35,0.1); color: var(--fp4-orange);">
           📊 Overview
         </a>
         <a href="scout.html" class="btn btn-ghost" style="justify-content: flex-start; border: none;">
@@ -93,7 +132,8 @@
       </nav>
 
       <div style="margin-top: auto;">
-        <button id="logoutBtn" class="btn btn-ghost" style="width: 100%; justify-content: center; border-color: rgba(255,68,68,0.2); color: #ff6666;">
+        <button id="logoutBtn" class="btn btn-ghost"
+          style="width: 100%; justify-content: center; border-color: rgba(255,68,68,0.2); color: #ff6666;">
           Sign Out
         </button>
       </div>
@@ -141,12 +181,74 @@
           </tbody>
         </table>
       </div>
+
+      <!-- Player Roster -->
+      <div class="glass-card" style="padding: 32px; margin-top: 48px;">
+        <h3 class="headline" style="font-size: 1.5rem; margin-bottom: 20px;">Player Roster</h3>
+        <table class="app-table">
+          <thead>
+            <tr>
+              <th>Player Name</th>
+              <th>Position</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="rosterTableBody">
+            <tr>
+              <td colspan="4" style="text-align: center; color: var(--fp4-muted); padding: 40px;">
+                Loading roster...
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </main>
+  </div>
+
+  <!-- Edit Player Modal -->
+  <div id="editModal"
+    style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.8); z-index:9999; align-items:center; justify-content:center; padding:20px;">
+    <div class="glass-card" style="width:100%; max-width:500px; padding:32px;">
+      <h3 class="headline" style="font-size: 1.5rem; margin-bottom: 24px;">Edit Player Data</h3>
+      <input type="hidden" id="editPlayerId" />
+      <div style="margin-bottom: 16px;">
+        <label style="font-size:0.8rem; color:var(--fp4-muted); text-transform:uppercase;">Photo URL</label>
+        <input type="text" id="editPhotoUrl" placeholder="https://..."
+          style="width:100%; margin-top:8px; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); border-radius:4px; padding:10px; color:#fff;" />
+      </div>
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom: 32px;">
+        <div>
+          <label style="font-size:0.8rem; color:var(--fp4-muted); text-transform:uppercase;">Strength</label>
+          <input type="number" id="editStrength" min="1" max="99"
+            style="width:100%; margin-top:8px; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); border-radius:4px; padding:10px; color:#fff;" />
+        </div>
+        <div>
+          <label style="font-size:0.8rem; color:var(--fp4-muted); text-transform:uppercase;">Speed</label>
+          <input type="number" id="editSpeed" min="1" max="99"
+            style="width:100%; margin-top:8px; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); border-radius:4px; padding:10px; color:#fff;" />
+        </div>
+        <div>
+          <label style="font-size:0.8rem; color:var(--fp4-muted); text-transform:uppercase;">Technique</label>
+          <input type="number" id="editTechnique" min="1" max="99"
+            style="width:100%; margin-top:8px; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); border-radius:4px; padding:10px; color:#fff;" />
+        </div>
+        <div>
+          <label style="font-size:0.8rem; color:var(--fp4-muted); text-transform:uppercase;">Tactical</label>
+          <input type="number" id="editTactical" min="1" max="99"
+            style="width:100%; margin-top:8px; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); border-radius:4px; padding:10px; color:#fff;" />
+        </div>
+      </div>
+      <div style="display:flex; justify-content:flex-end; gap:12px;">
+        <button onclick="closeEditModal()" class="btn btn-ghost">Cancel</button>
+        <button onclick="savePlayerEdits()" class="btn btn-primary" style="box-shadow:none;">Save Changes</button>
+      </div>
+    </div>
   </div>
 
   <script type="module">
     import { monitorAuthState, logoutUser } from './js/auth.js';
-    import { getAllApplications, updateApplicationStatus } from './js/db.js';
+    import { getAllApplications, updateApplicationStatus, getApprovedPlayers, updatePlayerAdmin } from './js/db.js';
 
     // Protect Route
     monitorAuthState((user) => {
@@ -158,6 +260,7 @@
 
     // DOM Elements
     const tableBody = document.getElementById('appTableBody');
+    const rosterTableBody = document.getElementById('rosterTableBody');
     const totalCount = document.getElementById('totalCount');
     const pendingCount = document.getElementById('pendingCount');
     const approvedCount = document.getElementById('approvedCount');
@@ -168,6 +271,7 @@
       const { success, error } = await updateApplicationStatus(id, status);
       if (success) {
         loadApps();
+        loadRoster();
       } else {
         alert('Update failed: ' + error);
       }
@@ -176,7 +280,7 @@
     async function loadApps() {
       const apps = await getAllApplications();
       tableBody.innerHTML = '';
-      
+
       if (apps.length === 0) {
         tableBody.innerHTML = '<tr><td colspan="5" style="text-align: center; padding: 40px;">No applications found.</td></tr>';
         totalCount.textContent = '0';
@@ -209,8 +313,84 @@
       approvedCount.textContent = apps.filter(a => a.status === 'approved').length;
     }
 
-    loadApps();
-  </script>
+    async function loadRoster() {
+      const players = await getApprovedPlayers();
+      rosterTableBody.innerHTML = '';
 
+      if (players.length === 0) {
+        rosterTableBody.innerHTML = '<tr><td colspan="4" style="text-align: center; padding: 40px;">No approved players yet.</td></tr>';
+        return;
+      }
+
+      // Store globally for edit modal
+      window.currentPlayers = players;
+
+      players.forEach(p => {
+        const name = p.fullName || 'Unknown';
+        const pos = p.position || 'N/A';
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td>${name}</td>
+          <td>${pos}</td>
+          <td><span class="status-badge status-approved">Approved</span></td>
+          <td class="action-btns">
+            <button onclick="openEditModal('${p.id}')" class="btn btn-ghost btn-sm" style="border-color:var(--fp4-orange); color:var(--fp4-orange);">Edit Player</button>
+          </td>
+        `;
+        rosterTableBody.appendChild(tr);
+      });
+    }
+
+    window.openEditModal = (id) => {
+      const p = window.currentPlayers.find(x => x.id === id);
+      if (!p) return;
+      document.getElementById('editPlayerId').value = id;
+      document.getElementById('editPhotoUrl').value = p.photoURL || '';
+      document.getElementById('editStrength').value = p.stats?.strength || 75;
+      document.getElementById('editSpeed').value = p.stats?.speed || 82;
+      document.getElementById('editTechnique').value = p.stats?.technique || 78;
+      document.getElementById('editTactical').value = p.stats?.tactical || 70;
+      document.getElementById('editModal').style.display = 'flex';
+    };
+
+    window.closeEditModal = () => {
+      document.getElementById('editModal').style.display = 'none';
+      document.getElementById('editPlayerId').value = '';
+    };
+
+    window.savePlayerEdits = async () => {
+      const id = document.getElementById('editPlayerId').value;
+      const btn = event.target;
+      const originalText = btn.textContent;
+      btn.textContent = 'Saving...';
+      btn.disabled = true;
+
+      const data = {
+        photoURL: document.getElementById('editPhotoUrl').value,
+        stats: {
+          strength: parseInt(document.getElementById('editStrength').value) || 75,
+          speed: parseInt(document.getElementById('editSpeed').value) || 82,
+          technique: parseInt(document.getElementById('editTechnique').value) || 78,
+          tactical: parseInt(document.getElementById('editTactical').value) || 70
+        }
+      };
+
+      const { success, error } = await updatePlayerAdmin(id, data);
+
+      btn.textContent = originalText;
+      btn.disabled = false;
+
+      if (success) {
+        closeEditModal();
+        loadRoster(); // Refresh the table
+      } else {
+        alert("Failed to update: " + error);
+      }
+    };
+
+    loadApps();
+    loadRoster();
+  </script>
 </body>
+
 </html>
