@@ -31,6 +31,16 @@ export function initGlobalUI() {
 
     const loginBtn = document.getElementById('navLoginBtn');
     const mobileLoginBtn = document.querySelector('.nav-mobile a[href="login.html"]');
+    const navElement = document.getElementById('navbar');
+
+    // Scroll Logic for Dynamic Navbar
+    if (navElement) {
+      window.addEventListener('scroll', () => {
+        navElement.classList.toggle('scrolled', window.scrollY > 40);
+      });
+      // Initial check in case page is already scrolled
+      navElement.classList.toggle('scrolled', window.scrollY > 40);
+    }
 
     if (loginBtn || mobileLoginBtn) {
       monitorAuthState((user) => {
