@@ -1,10 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>My Player Profile | Force Per4mance</title>
-  <link rel="stylesheet" href="style.css" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://firebasestorage.googleapis.com">
+  <link rel="stylesheet" href="style.css?v=3" />
   <link rel="icon" type="image/png" href="assets/logo.png" />
   <style>
     .profile-container {
@@ -15,11 +20,13 @@
       grid-template-columns: 320px 1fr;
       gap: 40px;
     }
+
     .profile-sidebar {
       display: flex;
       flex-direction: column;
       gap: 24px;
     }
+
     .profile-photo-wrap {
       width: 100%;
       aspect-ratio: 1/1;
@@ -29,37 +36,71 @@
       background: var(--glass-bg);
       position: relative;
     }
-    .profile-photo-wrap img { width: 100%; height: 100%; object-fit: cover; }
+
+    .profile-photo-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
     .photo-upload-btn {
-      position: absolute; bottom: 12px; right: 12px;
-      width: 44px; height: 44px; border-radius: 50%;
-      background: var(--fp4-orange); color: #000;
-      display: flex; align-items: center; justify-content: center;
-      cursor: pointer; box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+      position: absolute;
+      bottom: 12px;
+      right: 12px;
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: var(--fp4-orange);
+      color: #000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
       transition: var(--transition);
     }
-    .photo-upload-btn:hover { transform: scale(1.1); }
-    
+
+    .photo-upload-btn:hover {
+      transform: scale(1.1);
+    }
+
     .profile-nav {
-      display: flex; flex-direction: column; gap: 8px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
     }
 
     .profile-main {
-      display: flex; flex-direction: column; gap: 32px;
+      display: flex;
+      flex-direction: column;
+      gap: 32px;
     }
+
     .upload-progress {
-      height: 4px; background: rgba(255,255,255,0.1); border-radius: 2px;
-      margin-top: 12px; display: none; overflow: hidden;
+      height: 4px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 2px;
+      margin-top: 12px;
+      display: none;
+      overflow: hidden;
     }
+
     .upload-bar {
-      height: 100%; background: var(--fp4-orange); width: 0%;
+      height: 100%;
+      background: var(--fp4-orange);
+      width: 0%;
       transition: width 0.3s ease;
     }
+
     @media(max-width: 768px) {
-      .profile-container { grid-template-columns: 1fr; margin-top: 80px; }
+      .profile-container {
+        grid-template-columns: 1fr;
+        margin-top: 80px;
+      }
     }
   </style>
 </head>
+
 <body>
 
   <!-- Global Navbar Container -->
@@ -69,9 +110,14 @@
     <aside class="profile-sidebar">
       <div class="glass-card" style="padding: 24px;">
         <div class="profile-photo-wrap">
-          <img id="profileImg" src="https://via.placeholder.com/400?text=Upload+Photo" alt="Player Photo" />
+          <img id="profileImg" src="https://via.placeholder.com/400?text=Upload+Photo" alt="Player Photo"
+            loading="lazy" />
           <label for="photoUpload" class="photo-upload-btn">
-            <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M4 5h16v14h-16z" fill="none"/><path d="M9 3l-1.83 2h-3.17c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2v-12c0-1.1-.9-2-2-2h-3.17l-1.83-2h-6zm3 15c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.65 0-3 1.35-3 3s1.35 3 3 3 3-1.35 3-3-1.35-3-3-3z"/></svg>
+            <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M4 5h16v14h-16z" fill="none" />
+              <path
+                d="M9 3l-1.83 2h-3.17c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2v-12c0-1.1-.9-2-2-2h-3.17l-1.83-2h-6zm3 15c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.65 0-3 1.35-3 3s1.35 3 3 3 3-1.35 3-3-1.35-3-3-3z" />
+            </svg>
           </label>
           <input type="file" id="photoUpload" hidden accept="image/*" />
         </div>
@@ -82,7 +128,9 @@
       </div>
 
       <div class="glass-card profile-nav" style="padding: 16px;">
-        <a href="#" class="btn btn-ghost" style="justify-content: flex-start; border:none; background:rgba(245,166,35,0.1); color:var(--fp4-orange);">👤 General Info</a>
+        <a href="#" class="btn btn-ghost"
+          style="justify-content: flex-start; border:none; background:rgba(245,166,35,0.1); color:var(--fp4-orange);">👤
+          General Info</a>
         <a href="#" class="btn btn-ghost" style="justify-content: flex-start; border:none;">⚽ Stats & Experience</a>
         <a href="#" class="btn btn-ghost" style="justify-content: flex-start; border:none;">🎬 Video Highlights</a>
       </div>
@@ -121,7 +169,7 @@
   <!-- Global Footer Container -->
   <div id="footer-container"></div>
 
-  <script src="main.js"></script>
+  <script src="main.js?v=3" defer></script>
   <script type="module">
     import { initGlobalUI } from './js/ui.js';
     import { monitorAuthState, logoutUser } from './js/auth.js';
@@ -174,12 +222,12 @@
 
       uploadProgressFill.style.display = 'block';
 
-      uploadTask.on('state_changed', 
+      uploadTask.on('state_changed',
         (snapshot) => {
           const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
           uploadBar.style.width = progress + '%';
-        }, 
-        (error) => { console.error("Upload failed", error); }, 
+        },
+        (error) => { console.error("Upload failed", error); },
         () => {
           getDownloadURL(uploadTask.snapshot.ref).then(async (downloadURL) => {
             profileImg.src = downloadURL;
@@ -208,4 +256,5 @@
     });
   </script>
 </body>
+
 </html>

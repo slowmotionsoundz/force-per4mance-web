@@ -110,6 +110,24 @@ export function initGlobalUI() {
       });
     });
 
+    // --- Mobile Hamburger Menu ---
+    const hamburger = document.getElementById('hamburger');
+    const navMobile = document.getElementById('navMobile');
+    if (hamburger && navMobile) {
+      hamburger.addEventListener('click', () => {
+        navMobile.classList.toggle('open');
+        hamburger.classList.toggle('open');
+        document.body.style.overflow = navMobile.classList.contains('open') ? 'hidden' : '';
+      });
+      navMobile.querySelectorAll('a').forEach(link => {
+        link.addEventListener('click', () => {
+          navMobile.classList.remove('open');
+          hamburger.classList.remove('open');
+          document.body.style.overflow = '';
+        });
+      });
+    }
+
     // Dispatch custom event if needed
     document.dispatchEvent(new CustomEvent('navbarLoaded'));
   });

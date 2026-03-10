@@ -7,7 +7,11 @@
   <title>Force Per4mance | Elite Football Academy — Landskrona, Sweden</title>
   <meta name="description"
     content="Force Per4mance (FP4) is an elite football development program based in Landskrona, Sweden. We develop local youth, professional players, and recruit international talent across Scandinavia." />
-  <link rel="stylesheet" href="style.css" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://firebasestorage.googleapis.com">
+  <link rel="stylesheet" href="style.css?v=3" />
   <link rel="icon" type="image/png" href="assets/logo.png" />
 </head>
 
@@ -88,7 +92,7 @@
     <div class="container">
       <div class="about-grid">
         <div class="about-img_wrap reveal">
-          <img src="assets/training.png" alt="FP4 Training Session" />
+          <img src="assets/training.png" alt="FP4 Training Session" loading="lazy" />
           <div class="about-badge-float">
             <strong>FP4</strong>
             <span>Force Per4mance</span>
@@ -414,10 +418,10 @@
   <!-- Global Footer Container -->
   <div id="footer-container"></div>
 
-  <script src="main.js"></script>
+  <script src="main.js?v=3" defer></script>
   <script type="module">
     import { initGlobalUI } from './js/ui.js';
-    initGlobalUI();
+    initGlobalUI;
   </script>
 </body>
 
