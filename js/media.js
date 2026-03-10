@@ -14,8 +14,8 @@ const YOUTUBE_CHANNEL_HANDLE = '@ForcePer4mance-EliteFootballAcademy';
 export async function fetchYouTubeVideos() {
     try {
         // We use a public CORS proxy to fetch the RSS feed as JSON
-        // Channel ID for @ForcePer4mance-EliteFootballAcademy (can be extracted or provided)
-        const channelId = 'UCr0jN5v6DhzD3D9-_1yQ8rg'; // Example ID, replaces with dynamic logic if needed
+        // Official Channel ID for @ForcePer4mance
+        const channelId = 'UCj7mZvhIafy9m4uPr-54Yiw';
         const rssUrl = `https://www.youtube.com/feeds/videos.xml?channel_id=${channelId}`;
         const proxyUrl = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(rssUrl)}`;
 

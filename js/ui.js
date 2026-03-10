@@ -78,6 +78,38 @@ export function initGlobalUI() {
       });
     }
 
+    // --- Dropdown Support (Newly Added) ---
+    const navItems = document.querySelectorAll('.nav-item');
+    navItems.forEach(item => {
+      const trigger = item.querySelector('button[aria-haspopup]');
+      if (!trigger) return;
+
+      trigger.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const isOpen = item.classList.contains('open');
+
+        // Close all other nav-items
+        navItems.forEach(i => {
+          if (i !== item) {
+            i.classList.remove('open');
+            i.querySelector('button[aria-haspopup]')?.setAttribute('aria-expanded', 'false');
+          }
+        });
+
+        // Toggle this one
+        item.classList.toggle('open');
+        trigger.setAttribute('aria-expanded', !isOpen ? 'true' : 'false');
+      });
+    });
+
+    // Close on outside click
+    document.addEventListener('click', () => {
+      navItems.forEach(i => {
+        i.classList.remove('open');
+        i.querySelector('button[aria-haspopup]')?.setAttribute('aria-expanded', 'false');
+      });
+    });
+
     // Dispatch custom event if needed
     document.dispatchEvent(new CustomEvent('navbarLoaded'));
   });
